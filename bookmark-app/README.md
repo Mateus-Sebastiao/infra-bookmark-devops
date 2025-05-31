@@ -23,7 +23,7 @@ Essa é uma aplicação web simples construída com **Flask**. Ela permite que v
 
 ```bash
 git clone https://github.com/Mateus-Sebastiao/vagrant-lab.git
-cd vagrant-lab
+cd vagrant-lab/bookmark-app/
 ```
 
 ### 2. Criar e ativar ambiente virtual
