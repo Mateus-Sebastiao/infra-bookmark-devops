@@ -1,6 +1,6 @@
 # Bookmark Manager
 
-<div style="display: flex; justify-content: center;">
+<div align="center">
     <img src="./media/Flask-app.gif" alt="Demonstração" width="700" height="336">
 </div>
 
