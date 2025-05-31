@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bookmark App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Gestor de Links Favoritos</h1>
+
+    <form action="{{ url_for('main.add_bookmark') }}" method="POST">
+        <label for="title">Título: </label>
+        <input type="text" name="title" placeholder="Insira o título..." required><br>
+        <label for="url"> URL:  </label>
+        <input type="url" name="url" placeholder="Insira a url..." required><br>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <h2> Lista dos Links Favoritos </h2>
+    <ul>
+        {% for bookmark in bookmarks %}
+            <li>{{ bookmark.title }} - {{ bookmark.created_at }}</li>
+            <p><a href="{{ bookmark.url }}" target="_blank">{{ bookmark.url }}</a></p>
+        {% else %}
+            <li>Sem items ainda.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
