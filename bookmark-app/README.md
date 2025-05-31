@@ -1,5 +1,7 @@
 # Bookmark Manager
 
+![Demonstração do Bookmark Manager](media/Flask-app.gif)
+
 Essa é uma aplicação web simples construída com **Flask**. Ela permite que você adicione, visualize e gerencie links favoritos (bookmarks). Desenvolvi para praticar os fundamentos de DevOps, os fundamentos de desenvolvimento web com Python e Flask, além de conceitos como banco de dados SQLite, templates Jinja, Vagrant e futuras práticas com Docker, Nginx e Ansible.
 
 ## Funcionalidades
