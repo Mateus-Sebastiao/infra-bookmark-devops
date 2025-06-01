@@ -16,6 +16,8 @@ O objetivo é praticar e aplicar conceitos reais de Administração de Sistemas,
 - Linux (Ubuntu 20.04)
 - Vagrant
 - VirtualBox
+- Bash Script
+*(Em atualização contínua...)*
 
 ## Objetivos
 - Criar um ambiente de laboratório completo e técnico para estudos e prática.
