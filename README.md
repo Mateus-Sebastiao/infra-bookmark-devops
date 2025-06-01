@@ -17,7 +17,8 @@ O objetivo é praticar e aplicar conceitos reais de Administração de Sistemas,
 - Vagrant
 - VirtualBox
 - Bash Script
-*(Em atualização contínua...)*
+
+- *(Em atualização contínua...)*
 
 ## Objetivos
 - Criar um ambiente de laboratório completo e técnico para estudos e prática.
