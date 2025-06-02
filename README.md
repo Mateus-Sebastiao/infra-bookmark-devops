@@ -6,20 +6,17 @@ O objetivo é praticar e aplicar conceitos reais de Administração de Sistemas,
 
 ## Stack aplicada
 
-### Stack da aplicação
-- Python
-- Flask
-- SQLite (via SQLAlchemy)
-- HTML + CSS
-- Jinja2
-### Stack da infraestrutura local
-- Linux (Ubuntu 20.04)
-- Vagrant
-- VirtualBox
-- Bash Script 
-- Gunicorn *(Web Server Gateway Interface)*
-- Nginx *(Proxy Reverse)*
-- *(Em atualização contínua...)*
+Stack da aplicação | Stack da infraestrutura local
+:---: | :---:
+Python | Linux (Ubuntu 20.04)
+Flask | Vagrant
+SQLite (via SQLAlchemy) | VirtualBox
+HTML + CSS | Bash Script
+Jinja2 | Gunicorn *(Web Server Gateway Interface)*
+ | Nginx *(Proxy Reverse)*
+
+
+*(Em atualização contínua...)*
 
 ## Objetivos
 - Criar um ambiente de laboratório completo e técnico para estudos e prática.
