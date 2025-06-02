@@ -16,8 +16,9 @@ O objetivo é praticar e aplicar conceitos reais de Administração de Sistemas,
 - Linux (Ubuntu 20.04)
 - Vagrant
 - VirtualBox
-- Bash Script
-
+- Bash Script 
+- Gunicorn *(Web Server Gateway Interface)*
+- Nginx *(Proxy Reverse)*
 - *(Em atualização contínua...)*
 
 ## Objetivos
