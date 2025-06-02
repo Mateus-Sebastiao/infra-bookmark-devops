@@ -13,7 +13,7 @@ Flask | Vagrant
 SQLite (via SQLAlchemy) | VirtualBox
 HTML + CSS | Bash Script
 Jinja2 | Gunicorn *(Web Server Gateway Interface)*
- | Nginx *(Proxy Reverse)*
+-- | Nginx *(Proxy Reverse)*
 
 
 *(Em atualização contínua...)*
