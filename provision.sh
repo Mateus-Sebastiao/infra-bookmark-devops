@@ -21,10 +21,10 @@ cd vagrant-lab/bookmark-app/
 # Configurando o ambiente virtual
 echo ">> Criando ambiente virtual..."
 python3 -m venv venv
-source venv/bin/activate
+chown -R vagrant:vagrant venv/
 
 # Instalando as dependências
 echo ">> Instalando dependências do projeto..."
-pip install -r requirements.txt
+sudo -u vagrant ./venv/bin/pip install -r requirements.txt
 
 echo ">> Provisionamento concluído com sucesso!"
