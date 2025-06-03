@@ -48,4 +48,17 @@ fi
 echo ">> Validando e reiniciando o Nginx..."
 sudo nginx -t && sudo systemctl restart nginx
 
+echo ">> Configurando Gunicorn como serviço systemd..."
+if [ -f "$HOME/infra-bookmark-devops/gunicorn.service" ]; then
+  sudo cp "$HOME/infra-bookmark-devops/gunicorn.service" /etc/systemd/system/gunicorn.service
+else
+  echo "Arquivo gunicorn.service não encontrado em $HOME/infra-bookmark-devops/"
+  exit 1
+fi
+
+sudo systemctl daemon-reexec
+sudo systemctl daemon-reload
+sudo systemctl start gunicorn
+sudo systemctl enable gunicorn
+
 echo ">> Provisionamento concluído com sucesso!"

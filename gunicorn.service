@@ -1,0 +1,13 @@
+[Unit]
+Description=Gunicorn daemon para Bookmark App
+After=network.target
+
+[Service]
+User=vagrant
+Group=www-data
+WorkingDirectory=/home/vagrant/infra-bookmark-devops/bookmark-app
+Environment="PATH=/home/vagrant/infra-bookmark-devops/bookmark-app/venv/bin"
+ExecStart=/home/vagrant/infra-bookmark-devops/bookmark-app/venv/bin/gunicorn --workers 3 --bind 127.0.0.1:8000 run:app
+
+[Install]
+WantedBy=multi-user.target
