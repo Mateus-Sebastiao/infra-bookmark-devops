@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Home do usuário
+MY_HOME="/home/vagrant"
+
 # Variáveis para o nginx
 APP_CONF="bookmark"
 CONF_PATH="/etc/nginx/sites-available/$APP_CONF"
@@ -19,7 +22,7 @@ if [ ! -d "infra-bookmark-devops" ]; then
 fi
 
 # Corrigir propriedade do diretório para o usuário vagrant
-sudo chown -R vagrant:vagrant /home/vagrant/infra-bookmark-devops
+sudo chown -R vagrant:vagrant "$MY_HOME/infra-bookmark-devops"
 cd infra-bookmark-devops/bookmark-app/
 
 echo ">> Criando ambiente virtual..."
@@ -30,10 +33,10 @@ echo ">> Instalando dependências do projeto..."
 sudo -u vagrant ./venv/bin/pip install -r requirements.txt
 
 echo ">> Configurando o nginx como proxy reverso..."
-if [ -f "$HOME/infra-bookmark-devops/nginx.conf" ]; then
-  sudo cp "$HOME/infra-bookmark-devops/nginx.conf" "$CONF_PATH"
+if [ -f "$MY_HOME/infra-bookmark-devops/nginx.conf" ]; then
+  sudo cp "$MY_HOME/infra-bookmark-devops/nginx.conf" "$CONF_PATH"
 else
-  echo "Arquivo nginx.conf não encontrado em $HOME/infra-bookmark-devops/"
+  echo "Arquivo nginx.conf não encontrado em $MY_HOME/infra-bookmark-devops/"
   exit 1
 fi
 
@@ -49,10 +52,10 @@ echo ">> Validando e reiniciando o Nginx..."
 sudo nginx -t && sudo systemctl restart nginx
 
 echo ">> Configurando Gunicorn como serviço systemd..."
-if [ -f "$HOME/infra-bookmark-devops/gunicorn.service" ]; then
-  sudo cp "$HOME/infra-bookmark-devops/gunicorn.service" /etc/systemd/system/gunicorn.service
+if [ -f "$MY_HOME/infra-bookmark-devops/gunicorn.service" ]; then
+  sudo cp "$MY_HOME/infra-bookmark-devops/gunicorn.service" /etc/systemd/system/gunicorn.service
 else
-  echo "Arquivo gunicorn.service não encontrado em $HOME/infra-bookmark-devops/"
+  echo "Arquivo gunicorn.service não encontrado em $MY_HOME/infra-bookmark-devops/"
   exit 1
 fi
 
