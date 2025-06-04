@@ -43,9 +43,9 @@ vagrant box add ubuntu/focal64
 vagrant up
 ```
 
-### 3. Funcionamento e etapas do provisionamento
+### 3. Funcionamento, etapas do provisionamento e resultado
 
-Após rodar o `vagrant up`, o ambiente estará ativado; você poderá acessar a app Flask via navegador digitando: `http://192.168.56.10/`.
+Após rodar o `vagrant up`, o ambiente estará ativado; você poderá acessar a app Flask via navegador digitando: `http://192.168.56.10/` - *(O IP pode ser modificado no Vagrantfile)*.
 
 <div align="center">
     <img src="./media/app-Flask-in-provisioning.gif" alt="Demonstração" width="700" height="336">
@@ -61,21 +61,3 @@ Acima tem o projeto funcionando; as etapas do provisionamento englobam:
     - Configuração do **Nginx** como proxy reverso | [arquivo de configuração](./nginx.conf)
     - Configuração do **Gunicorn** como serviço systemd | [arquivo de configuração](./gunicorn.service)
 
-### 4. Estrutura do Projeto
-
-infra-bookmark-devops/
-├── bookmark-app/              # Aplicação Flask
-│   ├── static/
-│   ├── templates/
-│   ├── run.py
-│   ├── requirements.txt
-│   └── venv/                  # Ambiente virtual Python
-├── gunicorn.service           # Serviço systemd do Gunicorn
-├── nginx.conf                 # Configuração do Nginx (proxy reverso)
-├── provision.sh               # Script de provisionamento automático
-└── Vagrantfile                # Configuração da VM com Vagrant
-
-### 5. Resultado final
-
-Ao fim do provisionamento, a aplicação Flask estará acessível no navegador via: `http://192.168.56.10/`
-*(O IP pode ser modificado no Vagrantfile)*
