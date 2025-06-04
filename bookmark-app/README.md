@@ -27,7 +27,7 @@ Essa é uma aplicação web simples construída com **Flask**. Ela permite que v
 
 ```bash
 git clone https://github.com/Mateus-Sebastiao/infra-bookmark-devops.git
-cd vagrant-lab/bookmark-app/
+cd infra-bookmark-devops/bookmark-app/
 ```
 
 ### 2. Criar e ativar ambiente virtual

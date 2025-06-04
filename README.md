@@ -47,7 +47,9 @@ vagrant up
 
 Após rodar o `vagrant up`, o ambiente estará ativado; você poderá acessar a app Flask via navegador digitando: `http://192.168.56.10/`.
 
-![Flask App em Provisionamento](./media/app-Flask-in-provisioning.gif)
+<div align="center">
+    <img src="./media/app-Flask-in-provisioning.gif" alt="Demonstração" width="700" height="336">
+</div>
 
 Acima tem o projeto funcionando; as etapas do provisionamento englobam:
 
