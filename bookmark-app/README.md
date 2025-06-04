@@ -26,7 +26,7 @@ Essa é uma aplicação web simples construída com **Flask**. Ela permite que v
 ### 1. Clonar o Repositório
 
 ```bash
-git clone https://github.com/Mateus-Sebastiao/vagrant-lab.git
+git clone https://github.com/Mateus-Sebastiao/infra-bookmark-devops.git
 cd vagrant-lab/bookmark-app/
 ```
 
