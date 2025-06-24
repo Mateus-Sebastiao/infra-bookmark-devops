@@ -63,3 +63,8 @@ mysql -u root -p -e "DELETE FROM mysql.user WHERE user=''; FLUSH PRIVILEGES;"
 mysql -u root -p -e "CREATE USER 'mateus'@'%' IDENTIFIED BY 'bookmarksecret';"
 mysql -u root -p -e "GRANT ALL PRIVILEGES ON bookmark_schema.* TO 'mateus'@'%';"
 ```
+
+O banco de dados está vazio, mas vamos configurar rapidamente o servidor web.
+
+## Configurando dependências do Servidor Web
+
