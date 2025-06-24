@@ -36,7 +36,7 @@ sudo nano /etc/mysql/conf.d/allow_external.cnf
 
 Insira esse informação: 
 > [mysqld]
->   bind-address = 0.0.0.0
+    bind-address = 0.0.0.0
 
 4. Reiniciar o servidor:
 ```bash
