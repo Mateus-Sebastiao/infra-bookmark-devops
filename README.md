@@ -1,41 +1,26 @@
-# Infraestrutura e DevOps para Bookmark App
+# Colocando em Produção
 
-Este repositório contém um ambiente completo para provisionamento, execução, monitoramento e automação da aplicação Bookmark, desenvolvida com o micro-framework Flask.
+Esse estágio do projeto foca em colocar o software em produção, começarei por fazer o mais difícil, kkk. Colocar tudo a rodar e a funcionar. Colocarei o software a funcionar numa infraestrutura tradicional; configurações e instalações manuais, servidores e tais. As tecnologias base serão: Vagrant, servidor Ubuntu, o software, banco de dados...
 
-O objetivo é praticar e aplicar conceitos reais de Administração de Sistemas, Infraestrutura como Código e DevOps, indo desde o desenvolvimento local até práticas modernas como provisionamento automático, monitoramento com Prometheus e Grafana, CI/CD com GitHub Actions, containerização com Docker, entre outras tecnologias que serão incorporadas ao longo do tempo.
+## Diagrama da arquitectura
 
-## Stack aplicada
+<div align="center">
+    <img src="./media/on-premises-diagram.png" alt="Diagrama da arquitectura da infraestrutura" width="700" height="336">
+</div>
 
-Stack da aplicação | Stack da infraestrutura local
-:---: | :---:
-Python | Linux (Ubuntu 20.04)
-Flask | Vagrant
-SQLite (via SQLAlchemy) | VirtualBox
-HTML + CSS | Bash Script
-Jinja2 | Gunicorn
--- | Nginx *(Proxy Reverse)*
+## Requsitos
 
+- Vagrant
+- VirtualBox
 
-*(Em atualização contínua...)*
+## Como usar
 
-## Tudo começa em produção - fase 1
+1. Instalar o Vagrant
 
-Ao criar esse repositório, eu não sabia o que colocar na minha infraestrutura local para continuar a  evoluir as minhas habilidades em DevOps: cultura, prática e ferramentas; então decidi desenvolver uma app usando Flask para testar cada conhecimento adquirido. Como tudo começa em produção, antes de avançar para qualquer nível técnico, devemos ter a certeza que a nossa aplicação está funcional, isso é, rodando em produção. Nesta primeira fase, para simular um ambiente real de produção, fiz questão de usar o Vagrant, VirtualBox e scripts em Bash para provisionar o meu servidor que simula a produção. Para puderes usar esse ambiente na tua própria máquina deves seguir os passos abaixo:
-
-### 1. Instalar o Vagrant
-
-Para instalar o vagrant na sua máquina, você pode seguir o tutorial para instalação no seguinte link: [Vagrant Install](https://developer.hashicorp.com/vagrant/install); é super rápido. E se quiseres ter uma noção rápida sobre o vagrant, visite: [Vagrant Tutorial](https://developer.hashicorp.com/vagrant/tutorials/get-started)
+Para instalar o vagrant na sua máquina, você pode seguir o tutorial para instalação no seguinte link: Vagrant Install; é super rápido. E se quiseres ter uma noção rápida sobre o vagrant, visite: Vagrant Tutorial
 
 E certifique-se de ter o VirtualBox instalado na tua máquina.
 
-### 2. Clonar o repositório
-
-Após instalar o Vagrant e ter o VirtualBox instalado na tua máquina, você deve clonar este repositório:
-
-```bash
-git clone https://github.com/Mateus-Sebastiao/infra-bookmark-devops.git
-```
- 
 A seguir, você pode adicionar a box vagrant do Ubuntu/focal64 na sua máquina ou executar o Vagrantfile diretamente, porém, executar o Vagrantfile sem adicionar a box na sua máquina, fará com que o ficheiro faça download dessa box toda vez que quiseres rodar um ambiente; para rodar o ambiente, digite:
 
 ```bash
@@ -43,21 +28,103 @@ vagrant box add ubuntu/focal64
 vagrant up
 ```
 
-### 3. Funcionamento, etapas do provisionamento e resultado
+## Configurando e instalando do zero
 
-Após rodar o `vagrant up`, o ambiente estará ativado; você poderá acessar a app Flask via navegador digitando: `http://192.168.56.10/` - *(O IP pode ser modificado no Vagrantfile)*.
+### Configurando dependências do Servidor do Banco de Dados MySQL
+
+Após rodar o `vagrant up` para provisionar duas máquinas para nossa infraestrutura com base no **Vagrantfile**, chegou a hora de instalar as dependências de cada servidor. Começarei pelo servidor de banco de dados MySQL, para acessá-lo use: `vagrant ssh db`.
+
+Com acesso nele, execute os seguintes comandos:
+
+1. Atualizar os repositórios:
+```bash
+sudo apt-get update
+```
+
+2. Instalar o servidor:
+```bash
+sudo apt-get install mysql-server
+```
+
+3. Configurar acesso de qualquer endereço:
+```bash
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+```
+
+Insira esse informação: 
+> [mysqld]
+    bind-address = 0.0.0.0
+
+4. Reiniciar o servidor:
+```bash
+sudo systemctl restart mysql.service
+```
+
+5. Alterar modo de autenticação do usuário root:
+```bash
+sudo mysql
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'senha123';
+FLUSH PRIVILEGES;
+EXIT;
+```
+
+6. Criando o banco de dados e eliminando o usuário anónimo padrão:
+```bash
+mysqladmin -u root -p create bookmark_schema
+mysql -u root -p -e "SHOW DATABASES;"
+mysql -u root -p -e "DELETE FROM mysql.user WHERE user=''; FLUSH PRIVILEGES;"
+```
+
+7. Melhorando a segurança criando o usuário "mateus" com privilégios total ao banco de dados
+```bash
+mysql -u root -p -e "CREATE USER 'mateus'@'%' IDENTIFIED BY 'bookmarksecret';"
+mysql -u root -p -e "GRANT ALL PRIVILEGES ON bookmark_schema.* TO 'mateus'@'%';"
+```
+
+O banco de dados está vazio, mas vamos configurar rapidamente o servidor web.
+
+### Configurando dependências do Servidor Web
+
+Já configuramos as dependênciais do servidor MySQL, agora é o momento de passar para outra fase não menos importante, configurar o servidor web. Para acessar o servidor use: `vagrant ssh web`.
+
+Com acesso nele, vamos fazer o seguinte:
+
+1. Instalar o necessário
+```bash
+sudo apt-get update && sudo apt-get upgrade
+sudo apt install python3 python3-pip python3-venv
+sudo apt install mysql-client
+sudo apt install nginx
+```
+
+2. Clonar repositório e instalar dependências da app
+```bash
+git clone --branch feature/putting-into-production --single-branch https://github.com/Mateus-Sebastiao/infra-bookmark-devops.git
+cd infra-bookmark-devops/bookmark-app/
+python3 -m venv venv
+./venv/bin/pip install -r requirements.txt
+sudo cp ../.env.example .env
+```
+
+3. Configurar o Nginx
+```bash
+sudo cp $HOME/infra-bookmark-devops/deploy/nginx.conf /etc/nginx/sites-available/bookmark
+sudo ln -s /etc/nginx/sites-available/bookmark /etc/nginx/sites-enabled/
+sudo rm /etc/nginx/sites-enabled/default
+sudo nginx -t && sudo systemctl restart nginx
+```
+
+4. Configurar o Gunicorn como serviço
+```bash
+sudo cp $HOME/infra-bookmark-devops/deploy/gunicorn.service /etc/systemd/system/gunicorn.service
+sudo systemctl daemon-reexec
+sudo systemctl daemon-reload
+sudo systemctl start gunicorn
+sudo systemctl enable gunicorn
+```
+
+## App em funcionamento...
 
 <div align="center">
-    <img src="./media/app-Flask-in-provisioning.gif" alt="Demonstração" width="700" height="336">
+    <img src="./media/Funcionando-app.gif" alt="Diagrama da arquitectura da infraestrutura" width="700" height="336">
 </div>
-
-Acima tem o projeto funcionando; as etapas do provisionamento englobam:
-
-1. Criação da VM Vagrant
-2. Provisionamento automatizado usando o [script de provisionamento](./provision.sh)
-    - Instalação de pacotes essenciais (Python, Pip, Nginx, etc.)
-    - Clonagem do repositório;
-    - Criação do ambiente virtual e instalação de dependências
-    - Configuração do **Nginx** como proxy reverso | [arquivo de configuração](./nginx.conf)
-    - Configuração do **Gunicorn** como serviço systemd | [arquivo de configuração](./gunicorn.service)
-
