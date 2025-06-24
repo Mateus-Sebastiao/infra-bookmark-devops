@@ -13,7 +13,24 @@ Esse estágio do projeto foca em colocar o software em produção, começarei po
 - Vagrant
 - VirtualBox
 
-## Configurando dependências do Servidor do Banco de Dados MySQL
+## Como usar
+
+1. Instalar o Vagrant
+
+Para instalar o vagrant na sua máquina, você pode seguir o tutorial para instalação no seguinte link: Vagrant Install; é super rápido. E se quiseres ter uma noção rápida sobre o vagrant, visite: Vagrant Tutorial
+
+E certifique-se de ter o VirtualBox instalado na tua máquina.
+
+A seguir, você pode adicionar a box vagrant do Ubuntu/focal64 na sua máquina ou executar o Vagrantfile diretamente, porém, executar o Vagrantfile sem adicionar a box na sua máquina, fará com que o ficheiro faça download dessa box toda vez que quiseres rodar um ambiente; para rodar o ambiente, digite:
+
+```bash
+vagrant box add ubuntu/focal64
+vagrant up
+```
+
+## Configurando e instalando do zero
+
+### Configurando dependências do Servidor do Banco de Dados MySQL
 
 Após rodar o `vagrant up` para provisionar duas máquinas para nossa infraestrutura com base no **Vagrantfile**, chegou a hora de instalar as dependências de cada servidor. Começarei pelo servidor de banco de dados MySQL, para acessá-lo use: `vagrant ssh db`.
 
@@ -66,7 +83,7 @@ mysql -u root -p -e "GRANT ALL PRIVILEGES ON bookmark_schema.* TO 'mateus'@'%';"
 
 O banco de dados está vazio, mas vamos configurar rapidamente o servidor web.
 
-## Configurando dependências do Servidor Web
+### Configurando dependências do Servidor Web
 
 Já configuramos as dependênciais do servidor MySQL, agora é o momento de passar para outra fase não menos importante, configurar o servidor web. Para acessar o servidor use: `vagrant ssh web`.
 
