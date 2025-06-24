@@ -31,7 +31,7 @@ sudo apt-get install mysql-server
 
 3. Configurar acesso de qualquer endereço:
 ```bash
-sudo nano /etc/mysql/conf.d/allow_external.cnf
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
 ```
 
 Insira esse informação: 
