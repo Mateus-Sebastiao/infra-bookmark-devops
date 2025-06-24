@@ -68,3 +68,46 @@ O banco de dados está vazio, mas vamos configurar rapidamente o servidor web.
 
 ## Configurando dependências do Servidor Web
 
+Já configuramos as dependênciais do servidor MySQL, agora é o momento de passar para outra fase não menos importante, configurar o servidor web. Para acessar o servidor use: `vagrant ssh web`.
+
+Com acesso nele, vamos fazer o seguinte:
+
+1. Instalar o necessário
+```bash
+sudo apt-get update && sudo apt-get upgrade
+sudo apt install python3 python3-pip python3-venv
+sudo apt install mysql-client
+sudo apt install nginx
+```
+
+2. Clonar repositório e instalar dependências da app
+```bash
+git clone --branch feature/putting-into-production --single-branch https://github.com/Mateus-Sebastiao/infra-bookmark-devops.git
+cd infra-bookmark-devops/bookmark-app/
+python3 -m venv venv
+./venv/bin/pip install -r requirements.txt
+sudo cp ../.env.example .env
+```
+
+3. Configurar o Nginx
+```bash
+sudo cp $HOME/infra-bookmark-devops/deploy/nginx.conf /etc/nginx/sites-available/bookmark
+sudo ln -s /etc/nginx/sites-available/bookmark /etc/nginx/sites-enabled/
+sudo rm /etc/nginx/sites-enabled/default
+sudo nginx -t && sudo systemctl restart nginx
+```
+
+4. Configurar o Gunicorn como serviço
+```bash
+sudo cp $HOME/infra-bookmark-devops/deploy/gunicorn.service /etc/systemd/system/gunicorn.service
+sudo systemctl daemon-reexec
+sudo systemctl daemon-reload
+sudo systemctl start gunicorn
+sudo systemctl enable gunicorn
+```
+
+## App em funcionamento...
+
+<div align="center">
+    <img src="./media/Funcionando-app.gif" alt="Diagrama da arquitectura da infraestrutura" width="700" height="336">
+</div>
