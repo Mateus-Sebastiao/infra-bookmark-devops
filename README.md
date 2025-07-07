@@ -104,6 +104,7 @@ cd infra-bookmark-devops/bookmark-app/
 python3 -m venv venv
 ./venv/bin/pip install -r requirements.txt
 sudo cp ../.env.example .env
+sudo rm .env.example
 ```
 
 3. Configurar o Nginx
